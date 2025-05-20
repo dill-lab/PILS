@@ -734,7 +734,7 @@ class InversionExperiment(Experiment):
 class InversionFromHiddenStatesExperiment(InversionExperiment):
     @property
     def trainer_cls(self):
-        return pils.trainers.InversionFromLogitsTrainer
+        return pils.trainers.InversionTrainer
 
     @property
     def _wandb_project_name(self) -> str:
