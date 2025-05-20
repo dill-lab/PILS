@@ -1,0 +1,3 @@
+TODO:
+- Change `VEC2TEXT_CACHE` environ variable name
+- better embedder names
