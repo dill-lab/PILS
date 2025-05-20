@@ -667,14 +667,14 @@ class InversionExperiment(Experiment):
                 )
         if 'frozen_embeddings' in train_dataset.column_names:
             train_dataset = train_dataset.map(lambda x: {
-                # "embedder_input_ids": torch.zeros(2, 2),
-                # "embedder_attention_mask": torch.zeros(2, 2),
+                "embedder_input_ids": torch.zeros(2).long(),
+                "embedder_attention_mask": torch.zeros(2).long(),
                 "input_ids": torch.zeros(2).long(),
                 "attention_mask": torch.zeros(2).long(),
                 })
             train_dataset = train_dataset.remove_columns([
-                "embedder_input_ids",
-                "embedder_attention_mask",
+                # "embedder_input_ids",
+                # "embedder_attention_mask",
                 # "input_ids",
                 # "attention_mask",
                 ])
@@ -682,14 +682,14 @@ class InversionExperiment(Experiment):
         for ds_name, ds in eval_dataset.items():
             if 'frozen_embeddings' in ds.column_names:
                 eval_dataset[ds_name] = ds.map(lambda x: {
-                    #"embedder_input_ids": torch.zeros(2, 2),
-                    #"embedder_attention_mask": torch.zeros(2, 2),
+                    "embedder_input_ids": torch.zeros(2).long(),
+                    "embedder_attention_mask": torch.zeros(2).long(),
                     "input_ids": torch.zeros(2).long(),
                     "attention_mask": torch.zeros(2).long(),
                     })
                 eval_dataset[ds_name] = ds.remove_columns([
-                    "embedder_input_ids",
-                    "embedder_attention_mask",
+                    # "embedder_input_ids",
+                    # "embedder_attention_mask",
                     # "input_ids",
                     # "attention_mask",
                     ])
@@ -730,10 +730,10 @@ class InversionExperiment(Experiment):
     def get_collator(
         self, tokenizer: transformers.PreTrainedTokenizer, embedder_tokenizer,
     ) -> transformers.DataCollatorForSeq2Seq:
-        return transformers.DataCollatorForSeq2Seq(
-        #return DataCollatorForInversion(
+        # return transformers.DataCollatorForSeq2Seq(
+        return DataCollatorForInversion(
             tokenizer,
-            #embedder_tokenizer,
+            embedder_tokenizer,
             model=None,
             label_pad_token_id=-100,
             padding="max_length",
