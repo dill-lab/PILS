@@ -5,10 +5,10 @@ import torch
 import torch.nn as nn
 import transformers
 
-from vec2text.models.config import InversionConfig
-from vec2text.models.inversion import InversionModel
+from pils.models.config import InversionConfig
+from pils.models.inversion import InversionModel
 
-from vec2text.models.model_utils import load_embedder_and_tokenizer
+from pils.models.model_utils import load_embedder_and_tokenizer
 
 
 class InversionFromHiddenStatesModel(InversionModel):

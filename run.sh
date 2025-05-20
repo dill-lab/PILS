@@ -1,14 +1,14 @@
 export TMPDIR=/data/inversion/temp/
 export HF_HUB_CACHE=/data/inversion/huggingface/hub/
 export HF_HOME=/data/inversion/huggingface/
-export VEC2TEXT_CACHE=/data/inversion/vec2text/
+export PILS_CACHE=/data/inversion/pils/
 # export CUDA_LAUNCH_BLOCKING = 1
-export WANDB_DIR=/data/inversion/inversion_vec2text/
+export WANDB_DIR=/data/inversion/inversion_pils/
 
 python -m pip install -e .
 rm -r build
 
-nohup python vec2text/run.py --per_device_train_batch_size 240\
+nohup python pils/run.py --per_device_train_batch_size 240\
                     --per_device_eval_batch_size 240\
                     --max_seq_length 64\
                     --num_train_epochs 100\

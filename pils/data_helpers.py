@@ -6,8 +6,8 @@ from typing import Dict, List
 import datasets
 import torch
 
-from vec2text.run_args import DataArguments
-from vec2text.utils import dataset_map_multi_worker, get_num_proc
+from pils.run_args import DataArguments
+from pils.utils import dataset_map_multi_worker, get_num_proc
 
 STATIC_USER_PROMPT = "You are?"
 

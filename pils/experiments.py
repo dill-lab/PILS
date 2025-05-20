@@ -12,21 +12,21 @@ import datasets
 import torch
 import transformers
 
-import vec2text
-from vec2text.data_helpers import dataset_from_args, load_standard_val_datasets
-from vec2text.models import (
+import pils
+from pils.data_helpers import dataset_from_args, load_standard_val_datasets
+from pils.models import (
     InversionFromHiddenStatesModel,
 )
-from vec2text.models.config import InversionConfig
-from vec2text.run_args import DataArguments, ModelArguments, TrainingArguments
-from vec2text.tokenize_data import (
+from pils.models.config import InversionConfig
+from pils.run_args import DataArguments, ModelArguments, TrainingArguments
+from pils.tokenize_data import (
     embed_dataset_batch,
     tokenize_function,
     tokenize_function_llama_chat,
     tokenize_generic_chat_models,
 )
-from vec2text.collator import DataCollatorForInversion
-from vec2text.utils import MockEmbedder, dataset_map_multi_worker, get_num_proc
+from pils.collator import DataCollatorForInversion
+from pils.utils import MockEmbedder, dataset_map_multi_worker, get_num_proc
 
 # Allow W&B to start slowly.
 os.environ["WANDB__SERVICE_WAIT"] = "300"
@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 # We maintain our own cache because huggingface datasets caching
 # doesn't always work properly.
 DATASET_CACHE_PATH = os.environ.get(
-    "VEC2TEXT_CACHE", os.path.expanduser("~/.cache/inversion")
+    "PILS_CACHE", os.path.expanduser("~/.cache/inversion")
 )
 
 
@@ -602,7 +602,7 @@ class Experiment(abc.ABC):
         )
         # Optionally set a train dataset path override
         train_dataset_path = os.environ.get(
-            "VEC2TEXT_TRAIN_DATASET_PATH", train_dataset_path
+            "PILS_TRAIN_DATASET_PATH", train_dataset_path
         )
         print(f"Looking for train dataset at {train_dataset_path}")
         if os.path.exists(train_dataset_path):
@@ -659,7 +659,7 @@ class Experiment(abc.ABC):
 class InversionExperiment(Experiment):
     @property
     def trainer_cls(self):
-        return vec2text.trainers.InversionTrainer
+        return pils.trainers.InversionTrainer
 
     @property
     def _wandb_project_name(self) -> str:
@@ -734,11 +734,11 @@ class InversionExperiment(Experiment):
 class InversionFromHiddenStatesExperiment(InversionExperiment):
     @property
     def trainer_cls(self):
-        return vec2text.trainers.InversionFromLogitsTrainer
+        return pils.trainers.InversionFromLogitsTrainer
 
     @property
     def _wandb_project_name(self) -> str:
-        return "emb-inv-logits-1"
+        return "pils-inv"
 
     def load_model(self) -> transformers.PreTrainedModel:
         if self.model_args.pretrained_path is not None:

@@ -1,4 +1,4 @@
-import vec2text
+import pils
 
 # TODO always load args from disk, delete this dict.
 ARGS_DICT = {
@@ -31,7 +31,7 @@ CHECKPOINT_FOLDERS_DICT = {
     # gtr hypothesis model (60 epochs trained) [loss 2.04, bleu ~12.7]:
     #   https://wandb.ai/jack-morris/emb-inv-3/runs/d8319570c0314d95b2a9746f849e6218/overview?workspace=user-jxmorris12
     # "gtr_msmarco__msl128__100epoch": "/home/jxm3/research/retrieval/inversion/saves/d6312870a6f49dee914198d048ee88f4",
-    "gtr_msmarco__msl128__100epoch": "/home/wentingz/research/vec2text/vec2text/saves/gtr-1",
+    "gtr_msmarco__msl128__100epoch": "/home/wentingz/research/pils/pils/saves/gtr-1",
     # openai hypothesis model [sl32] [still training, loss 1.233, bleu 29...] https://wandb.ai/jack-morris/emb-inv-3/runs/9b5d4aac9b16dad6d4a8c65cbc1a8859?workspace=user-jxmorris12
     "openai_msmarco__msl32__100epoch": "/home/jxm3/research/retrieval/inversion/saves/61becf9bb1d627272cd1923ac4871e73",
     # openai corrector model [sl32] [loss 0.77, bleu 45]
@@ -45,12 +45,12 @@ CHECKPOINT_FOLDERS_DICT = {
     # openai corrector model trained for a lot longer:
     # https://wandb.ai/jack-morris/emb-correct-1/runs/5c1f59956a46e62e8f26f778e167348a/overview?workspace=user-jxmorris12
     "openai_msmarco__msl128__200epoch__correct": "/home/jxm3/research/retrieval/inversion/saves/c7be16d4af952eea8046a02a9d2a2113",
-    "logits__gpt2": "/home/jxm3/research/retrieval/inversion/vec2text/saves/9a73ba8ce560ec71a1f7a46b31674841",
-    # "TEST_MODEL": "/home/jxm3/research/retrieval/inversion/vec2text/saves/c52ed653690fee956069a64f69a0ce05",
-    "t5-base___llama-7b___one-million-paired-instructions": "/home/wentingz/research/vec2text/saves/cd8e3e3dec1a79babb508c3edd7fe5d3",
-    "t5-base__llama-7b__one-million-paired-instructions": "/home/ubuntu/vec2text/saves/dda9034471bab47f202eb37f5200a272",
-    "t5_base__llama-7b__one-million-instructions__correct__70epoch": "/home/wentingz/research/vec2text/vec2text/saves/logits-corrector-2",
-    "t5-base___llama-7b___one-million-instructions__correct": "/home/wentingz/research/vec2text/vec2text/saves/logits-corrector-4",
+    "logits__gpt2": "/home/jxm3/research/retrieval/inversion/pils/saves/9a73ba8ce560ec71a1f7a46b31674841",
+    # "TEST_MODEL": "/home/jxm3/research/retrieval/inversion/pils/saves/c52ed653690fee956069a64f69a0ce05",
+    "t5-base___llama-7b___one-million-paired-instructions": "/home/wentingz/research/pils/saves/cd8e3e3dec1a79babb508c3edd7fe5d3",
+    "t5-base__llama-7b__one-million-paired-instructions": "/home/ubuntu/pils/saves/dda9034471bab47f202eb37f5200a272",
+    "t5_base__llama-7b__one-million-instructions__correct__70epoch": "/home/wentingz/research/pils/pils/saves/logits-corrector-2",
+    "t5-base___llama-7b___one-million-instructions__correct": "/home/wentingz/research/pils/pils/saves/logits-corrector-4",
 }
 
 
@@ -65,7 +65,7 @@ def load_experiment_and_trainer_from_alias(
         args_str = None
         checkpoint_folder = alias
     print(f"loading alias {alias} from {checkpoint_folder}...")
-    experiment, trainer = vec2text.analyze_utils.load_experiment_and_trainer(
+    experiment, trainer = pils.analyze_utils.load_experiment_and_trainer(
         checkpoint_folder,
         args_str,
         do_eval=False,

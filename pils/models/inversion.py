@@ -7,8 +7,8 @@ import torch.nn as nn
 import transformers
 from sentence_transformers import SentenceTransformer
 
-from vec2text.models.config import InversionConfig
-from vec2text.models.model_utils import (
+from pils.models.config import InversionConfig
+from pils.models.model_utils import (
     FREEZE_STRATEGIES,
     disable_dropout,
     freeze_params,
@@ -17,7 +17,7 @@ from vec2text.models.model_utils import (
     load_tokenizer,
     mean_pool,
 )
-from vec2text.utils import embed_api
+from pils.utils import embed_api
 
 logger = logging.getLogger(__name__)
 

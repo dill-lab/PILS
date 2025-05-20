@@ -12,10 +12,10 @@ import transformers
 from transformers import HfArgumentParser
 from transformers.trainer_utils import get_last_checkpoint
 
-from vec2text import experiments
-from vec2text.models.config import InversionConfig
-from vec2text.run_args import DataArguments, ModelArguments, TrainingArguments
-from vec2text import run_args as run_args
+from pils import experiments
+from pils.models.config import InversionConfig
+from pils.run_args import DataArguments, ModelArguments, TrainingArguments
+from pils import run_args as run_args
 
 device = torch.device(
     "cuda"
@@ -39,7 +39,7 @@ def load_experiment_and_trainer(
     use_less_data: Optional[int] = None,
 ):  # (can't import due to circluar import) -> trainers.InversionTrainer:
     # import previous aliases so that .bin that were saved prior to the
-    # existence of the vec2text module will still work.
+    # existence of the pils module will still work.
 
     if checkpoint is None:
         checkpoint = get_last_checkpoint(checkpoint_folder)  # a checkpoint
@@ -221,7 +221,7 @@ def load_gpt_fewshot_baseline_trainer(
     prev_trainer = exp.load_trainer()
     eval_dataset = prev_trainer.eval_dataset
 
-    from vec2text.trainers_baseline import FewshotInversionTrainer
+    from pils.trainers_baseline import FewshotInversionTrainer
 
     trainer = FewshotInversionTrainer(
         args=training_args,
@@ -273,7 +273,7 @@ def load_jailbreak_baseline_trainer(
     prev_trainer = exp.load_trainer()
     eval_dataset = prev_trainer.eval_dataset
 
-    from vec2text.trainers_baseline import JailbreakPromptTrainer
+    from pils.trainers_baseline import JailbreakPromptTrainer
 
     trainer = JailbreakPromptTrainer(
         args=training_args,
@@ -323,7 +323,7 @@ def load_seq2seq_baseline_trainer(
 
     inverter = transformers.AutoModelForSeq2SeqLM.from_pretrained(seq2seq_model_name)
 
-    from vec2text.trainers_baseline import DecodeInversionTrainer
+    from pils.trainers_baseline import DecodeInversionTrainer
 
     trainer = DecodeInversionTrainer(
         args=prev_trainer.args,

@@ -3,7 +3,7 @@ from typing import Callable, Dict
 import torch
 import transformers
 
-from vec2text.models import InversionModel
+from pils.models import InversionModel
 
 
 def tokenize_function(

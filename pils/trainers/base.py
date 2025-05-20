@@ -15,7 +15,7 @@ import torch
 import tqdm
 import transformers
 
-import vec2text
+import pils
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +74,7 @@ class BaseTrainer(transformers.Trainer):
         }
 
     def enable_emb_cos_sim_metric(self) -> None:
-        self.additional_metrics.append(vec2text.metrics.EmbeddingCosineSimilarity())
+        self.additional_metrics.append(pils.metrics.EmbeddingCosineSimilarity())
 
     def is_llama_chat(self) -> bool:
         return self.embedder.config._name_or_path in [

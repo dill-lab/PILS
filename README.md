@@ -1,6 +1,6 @@
-# vec2text
+# pils
 
-<img src="https://github.com/jxmorris12/vec2text-gif/blob/master/vec2text_v3.gif" width="500" />
+<img src="https://github.com/jxmorris12/pils-gif/blob/master/pils_v3.gif" width="500" />
 
 This library contains code for doing text embedding inversion. We can train various architectures that reconstruct text sequences from embeddings as well as run pre-trained models. This repository contains code for the paper "Text Embeddings Reveal (Almost)
 As Much As Text".
@@ -8,7 +8,7 @@ As Much As Text".
 To get started, install this on PyPI:
 
 ```bash
-pip install vec2text
+pip install pils
 ```
 
 [Link to Colab Demo](https://colab.research.google.com/drive/14RQFRF2It2Kb8gG3_YDhP_6qE0780L8h?usp=sharing)
@@ -34,26 +34,26 @@ The library can be used to embed text and then invert it, or invert directly fro
 ### Load a model via `load_pretrained_corrector`
 
 ```python
-corrector = vec2text.load_pretrained_corrector("text-embedding-ada-002")
+corrector = pils.load_pretrained_corrector("text-embedding-ada-002")
 ```
 
 ### Load a model via `load_corrector`
 
-If you have trained you own custom models using vec2text, you can load them in using the `load_corrector` function.
+If you have trained you own custom models using pils, you can load them in using the `load_corrector` function.
 
 ```python
-inversion_model = vec2text.models.InversionModel.from_pretrained("jxm/gtr__nq__32")
-corrector_model = vec2text.models.CorrectorEncoderModel.from_pretrained("jxm/gtr__nq__32__correct")
+inversion_model = pils.models.InversionModel.from_pretrained("jxm/gtr__nq__32")
+corrector_model = pils.models.CorrectorEncoderModel.from_pretrained("jxm/gtr__nq__32__correct")
 
-corrector = vec2text.load_corrector(inversion_model, corrector_model)
+corrector = pils.load_corrector(inversion_model, corrector_model)
 ```
 
-Both `vec2text.models.InversionModel` and `vec2text.models.CorrectorEncoderModel` classes inherit `transformers.PreTrainedModel` therefore you can pass in a huggingface model name or path to a local directory.
+Both `pils.models.InversionModel` and `pils.models.CorrectorEncoderModel` classes inherit `transformers.PreTrainedModel` therefore you can pass in a huggingface model name or path to a local directory.
 
 ### Invert text with `invert_strings`
 
 ```python
-vec2text.invert_strings(
+pils.invert_strings(
     [
         "Jack Morris is a PhD student at Cornell Tech in New York City",
         "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity"
@@ -67,7 +67,7 @@ vec2text.invert_strings(
 By default, this will make a single guess (using the hypothesizer). For better results, you can make multiple steps:
 
 ```python
-vec2text.invert_strings(
+pils.invert_strings(
     [
         "Jack Morris is a PhD student at Cornell Tech in New York City",
         "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity"
@@ -82,7 +82,7 @@ vec2text.invert_strings(
 And for even better results, you can increase the size of the search space by setting `sequence_beam_width` to a positive integer:
 
 ```python
-vec2text.invert_strings(
+pils.invert_strings(
     [
         "Jack Morris is a PhD student at Cornell Tech in New York City",
         "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity"
@@ -121,7 +121,7 @@ embeddings = get_embeddings_openai([
 ])
 
 
-vec2text.invert_embeddings(
+pils.invert_embeddings(
     embeddings=embeddings.cuda(),
     corrector=corrector
 )
@@ -134,7 +134,7 @@ This function also takes the same optional hyperparameters, `num_steps` and `seq
 ### Similarly, you can invert gtr-base embeddings with the following example:
 
 ```python
-import vec2text
+import pils
 import torch
 from transformers import AutoModel, AutoTokenizer, PreTrainedTokenizer, PreTrainedModel
 
@@ -152,21 +152,21 @@ def get_gtr_embeddings(text_list,
     with torch.no_grad():
         model_output = encoder(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         hidden_state = model_output.last_hidden_state
-        embeddings = vec2text.models.model_utils.mean_pool(hidden_state, inputs['attention_mask'])
+        embeddings = pils.models.model_utils.mean_pool(hidden_state, inputs['attention_mask'])
 
     return embeddings
 
 
 encoder = AutoModel.from_pretrained("sentence-transformers/gtr-t5-base").encoder.to("cuda")
 tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/gtr-t5-base")
-corrector = vec2text.load_pretrained_corrector("gtr-base")
+corrector = pils.load_pretrained_corrector("gtr-base")
 
 embeddings = get_gtr_embeddings([
        "Jack Morris is a PhD student at Cornell Tech in New York City",
        "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity"
 ], encoder, tokenizer)
 
-vec2text.invert_embeddings(
+pils.invert_embeddings(
     embeddings=embeddings.cuda(),
     corrector=corrector,
     num_steps=20,
@@ -181,7 +181,7 @@ vec2text.invert_embeddings(
 You can mix two embeddings together for interesting results. Given embeddings of the previous two inputs, we can invert their mean:
 
 ```python
-vec2text.invert_embeddings(
+pils.invert_embeddings(
     embeddings=embeddings.mean(dim=0, keepdim=True).cuda(),
     corrector=corrector
 )
@@ -195,7 +195,7 @@ import numpy as np
 
 for alpha in np.arange(0.0, 1.0, 0.1):
   mixed_embedding = torch.lerp(input=embeddings[0], end=embeddings[1], weight=alpha)
-  text = vec2text.invert_embeddings(
+  text = pils.invert_embeddings(
       embeddings=mixed_embedding[None].cuda(),
       corrector=corrector,
       num_steps=20,
@@ -250,7 +250,7 @@ Our models come in one of two forms: a zero-step 'hypothesizer' model that makes
 
 ### How to upload a pre-trained model to the HuggingFace model hub
 
-1. Add your model to [`CHECKPOINT_FOLDERS_DICT` in `aliases.py`](https://github.com/jxmorris12/vec2text/blob/master/vec2text/aliases.py#L12). This tells our codebase (i) what the name (alias) of your model is and (ii) the folder where its weights are stored.
+1. Add your model to [`CHECKPOINT_FOLDERS_DICT` in `aliases.py`](https://github.com/jxmorris12/pils/blob/master/pils/aliases.py#L12). This tells our codebase (i) what the name (alias) of your model is and (ii) the folder where its weights are stored.
 2. Log into the model hub using `huggingface-cli login`
 3. From the project root directory, run `python scripts/upload_model.py <model_alias> <hf_alias>` where `<model_alias>` is the key of the model you added to aliases.py and `<hf_alias>` will be the model's name on HuggingFace
 
@@ -265,7 +265,7 @@ Our models come in one of two forms: a zero-step 'hypothesizer' model that makes
 Here's how to load and evaluate the sequence-length 32 GTR inversion model in the paper:
 
 ```python
-from vec2text import analyze_utils
+from pils import analyze_utils
 
 experiment, trainer = analyze_utils.load_experiment_and_trainer_from_pretrained(
      "jxm/gtr__nq__32__correct"
@@ -298,7 +298,7 @@ This is the dataset of prompts used for training (referred two as "Two Million I
 
 Here is a sample command for training a language model inverter:
 ```bash
-python vec2text/run.py --per_device_train_batch_size 16 --per_device_eval_batch_size 16 --max_seq_length 128 --num_train_epochs 100 --max_eval_samples 1000 --eval_steps 25000 --warmup_steps 100000 --learning_rate 0.0002 --dataset_name one_million_instructions --model_name_or_path t5-base --use_wandb=0 --embedder_model_name gpt2 --experiment inversion_from_logits_emb --bf16=1 --embedder_torch_dtype float16 --lr_scheduler_type constant_with_warmup --use_frozen_embeddings_as_input 1 --mock_embedder 0
+python pils/run.py --per_device_train_batch_size 16 --per_device_eval_batch_size 16 --max_seq_length 128 --num_train_epochs 100 --max_eval_samples 1000 --eval_steps 25000 --warmup_steps 100000 --learning_rate 0.0002 --dataset_name one_million_instructions --model_name_or_path t5-base --use_wandb=0 --embedder_model_name gpt2 --experiment inversion_from_logits_emb --bf16=1 --embedder_torch_dtype float16 --lr_scheduler_type constant_with_warmup --use_frozen_embeddings_as_input 1 --mock_embedder 0
 ```
 
 #### Pre-trained models
@@ -313,7 +313,7 @@ As well as our Private Prompts synthetic evaluation data: https://huggingface.co
 Here's an example of how to evaluate on the Python-Alpaca dataset:
 
 ```python
-from vec2text import analyze_utils
+from pils import analyze_utils
 experiment, trainer = analyze_utils.load_experiment_and_trainer_from_pretrained(
     "jxm/t5-base__llama-7b__one-million-instructions__emb"
 )

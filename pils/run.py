@@ -1,6 +1,6 @@
 import transformers
-from vec2text.experiments import experiment_from_args
-from vec2text.run_args import DataArguments, ModelArguments, TrainingArguments
+from pils.experiments import experiment_from_args
+from pils.run_args import DataArguments, ModelArguments, TrainingArguments
 
 
 def main():

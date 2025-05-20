@@ -136,7 +136,7 @@ def dataset_map_multi_worker(
     datasets.disable_caching()
 
     cache_path = os.environ.get(
-        "VEC2TEXT_CACHE", os.path.expanduser("~/.cache/inversion")
+        "PILS_CACHE", os.path.expanduser("~/.cache/inversion")
     )
     ds_shard_filepaths = [
         os.path.join(cache_path, f"{dataset._fingerprint}_subshard_{w}.cache")

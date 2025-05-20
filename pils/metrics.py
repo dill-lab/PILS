@@ -3,7 +3,7 @@ from typing import Dict, List
 import scipy.stats
 import torch
 
-from vec2text.utils import get_embeddings_openai_vanilla
+from pils.utils import get_embeddings_openai_vanilla
 
 
 class EmbeddingCosineSimilarity:
