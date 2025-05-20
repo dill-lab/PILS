@@ -39,7 +39,7 @@ class InversionModel(transformers.PreTrainedModel):
 
         encoder_decoder = load_encoder_decoder(
             model_name=config.model_name_or_path,
-            lora=config.use_lora,
+            lora=False,
         )
 
         embedder, embedder_tokenizer = self.load_embedder_and_tokenizer(config)
