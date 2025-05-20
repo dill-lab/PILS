@@ -74,10 +74,6 @@ class InversionModel(transformers.PreTrainedModel):
         self.embedder_tokenizer = embedder_tokenizer
         # self.freeze(freeze_strategy=config.freeze_strategy)
 
-        self.embedding_transform_strategy = "repeat"  # "none" # "repeat"
-        self.embeddings_from_layer_n = embeddings_from_layer_n
-        self.noise_level = vars(config).get("embedder_gaussian_noise_level")
-
     @property
     def embedder_device(self) -> torch.device:
         return next(self.embedder.parameters()).device
