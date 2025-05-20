@@ -17,8 +17,6 @@ from pils.models.model_utils import (
     load_tokenizer,
     mean_pool,
 )
-from pils.utils import embed_api
-
 logger = logging.getLogger(__name__)
 
 
@@ -38,12 +36,10 @@ class InversionModel(transformers.PreTrainedModel):
     embedding_transform_strategy: str  # Way to transform bottleneck embedding into input for encoder-decoder
     use_frozen_embeddings_as_input: bool  # Whether to train/evaluate on frozen embeddings
     embedded_tokens: torch.Tensor  # used for decoding
-    embedder_model_api: Optional[str]
 
     def __init__(self, config: InversionConfig):
         super().__init__(config=config)
 
-        embedder_model_api = config.embedder_model_api
         embedder_fake_with_zeros = config.embedder_fake_with_zeros
         use_frozen_embeddings_as_input = config.use_frozen_embeddings_as_input
         encoder_dropout_disabled = config.encoder_dropout_disabled
@@ -71,12 +67,7 @@ class InversionModel(transformers.PreTrainedModel):
         self.embedder_is_decoder = False
 
         encoder_hidden_dim = self.encoder_decoder.config.hidden_size
-        if embedder_model_api:
-            assert use_frozen_embeddings_as_input, "must precompute embeddings w/ api"
-            # Hard-code OpenAI embedding dim
-            self.embedder_dim = 1536
-            bottleneck_dim = self.embedder_dim
-        elif isinstance(embedder, SentenceTransformer):
+        if isinstance(embedder, SentenceTransformer):
             self.embedder_dim = embedder.get_sentence_embedding_dimension()
             bottleneck_dim = self.embedder_dim
         else:
@@ -107,7 +98,6 @@ class InversionModel(transformers.PreTrainedModel):
             self.embedder.eval()
 
         self.embedder_tokenizer = embedder_tokenizer
-        self.embedder_model_api = embedder_model_api
         # self.freeze(freeze_strategy=config.freeze_strategy)
         self.embedder_fake_with_zeros = embedder_fake_with_zeros
 
@@ -186,12 +176,6 @@ class InversionModel(transformers.PreTrainedModel):
                 (batch_size, self.embedder_dim),
                 dtype=torch.float32,
                 device=self.embedder_device,
-            )
-        elif self.embedder_model_api:
-            embeddings = embed_api(
-                input_ids=input_ids,
-                embedder_tokenizer=self.embedder_tokenizer,
-                api_name=self.embedder_model_api,
             )
         elif isinstance(self.embedder, SentenceTransformer):
             # sentence-transformers is kind of really annoying

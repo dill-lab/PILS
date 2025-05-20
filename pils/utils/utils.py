@@ -251,28 +251,6 @@ def get_embeddings_openai_vanilla(text_list, model="text-embedding-ada-002") -> 
     return outputs
 
 
-@retry(wait=wait_fixed(1), stop=stop_after_attempt(10))
-def embed_api(
-    input_ids: torch.Tensor,
-    embedder_tokenizer: transformers.PreTrainedTokenizer,
-    api_name: str,
-) -> torch.Tensor:
-    text_list = embedder_tokenizer.batch_decode(input_ids, skip_special_tokens=True)
-
-    # get_embeddings_func = get_embeddings_openai_vanilla
-    get_embeddings_func = get_embeddings_openai_vanilla_multithread
-    # get_embeddings_func = get_embeddings_openai_manifest
-    if api_name.startswith("text-embedding-ada"):
-        embeddings = get_embeddings_func(
-            text_list=text_list,
-            model=api_name,
-        )
-    else:
-        raise ValueError(f"unsupported api name {api_name}")
-
-    return torch.tensor(embeddings, device=input_ids.device, dtype=torch.float32)
-
-
 class MockEmbedder:
     embedder_dim: int
 
