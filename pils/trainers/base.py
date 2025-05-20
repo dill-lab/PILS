@@ -73,9 +73,6 @@ class BaseTrainer(transformers.Trainer):
             "no_repeat_ngram_size": 0,
         }
 
-    def enable_emb_cos_sim_metric(self) -> None:
-        self.additional_metrics.append(pils.metrics.EmbeddingCosineSimilarity())
-
     def is_llama_chat(self) -> bool:
         return self.embedder.config._name_or_path in [
             "meta-llama/Llama-2-7b-chat-hf",

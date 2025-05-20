@@ -18,16 +18,6 @@ def retain_dataset_columns(
     return d.remove_columns(column_names_to_remove)
 
 
-def load_nq_dpr_corpus() -> datasets.Dataset:
-    return datasets.load_dataset("jxm/nq_corpus_dpr")
-
-
-def load_msmarco_corpus() -> datasets.Dataset:
-    # has columns ["title", "text"]. only one split ("train")
-    dataset_dict = datasets.load_dataset("Tevatron/msmarco-passage-corpus")
-    return dataset_dict["train"]
-
-
 def create_omi_ex(ex: Dict[str, str]) -> Dict[str, str]:
     ex["text"] = ex["user"]
     return ex
