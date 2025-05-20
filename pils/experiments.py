@@ -666,23 +666,33 @@ class InversionExperiment(Experiment):
                 embedder_tokenizer=model.embedder_tokenizer,
                 )
         if 'frozen_embeddings' in train_dataset.column_names:
-            # train_dataset = train_dataset.map(lambda x: {
-            #     "embedder_input_ids": torch.zeros(2, 2),
-            #     "embedder_attention_mask": torch.zeros(2, 2),
-            #     "input_ids": torch.zeros(2, 2),
-            #     "attention_mask": torch.zeros(2, 2),
-            #     })
-            train_dataset = train_dataset.remove_columns(["embedder_input_ids", "embedder_attention_mask", "input_ids", "attention_mask"])
+            train_dataset = train_dataset.map(lambda x: {
+                # "embedder_input_ids": torch.zeros(2, 2),
+                # "embedder_attention_mask": torch.zeros(2, 2),
+                "input_ids": torch.zeros(2, 2),
+                "attention_mask": torch.zeros(2, 2),
+                })
+            train_dataset = train_dataset.remove_columns([
+                "embedder_input_ids",
+                "embedder_attention_mask",
+                # "input_ids",
+                # "attention_mask",
+                ])
             train_dataset.set_format('pt')
         for ds_name, ds in eval_dataset.items():
             if 'frozen_embeddings' in ds.column_names:
-                # eval_dataset[ds_name] = ds.map(lambda x: {
-                #     "embedder_input_ids": torch.zeros(2, 2),
-                #     "embedder_attention_mask": torch.zeros(2, 2),
-                #     "input_ids": torch.zeros(2, 2),
-                #     "attention_mask": torch.zeros(2, 2),
-                #     })
-                eval_dataset[ds_name] = ds.remove_columns(["embedder_input_ids", "embedder_attention_mask", "input_ids", "attention_mask"])
+                eval_dataset[ds_name] = ds.map(lambda x: {
+                    #"embedder_input_ids": torch.zeros(2, 2),
+                    #"embedder_attention_mask": torch.zeros(2, 2),
+                    "input_ids": torch.zeros(2, 2),
+                    "attention_mask": torch.zeros(2, 2),
+                    })
+                eval_dataset[ds_name] = ds.remove_columns([
+                    "embedder_input_ids",
+                    "embedder_attention_mask",
+                    # "input_ids",
+                    # "attention_mask",
+                    ])
             eval_dataset.set_format('pt')
         # print(f"{train_dataset=}")
         # print(f"{eval_dataset=}")
