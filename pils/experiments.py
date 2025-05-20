@@ -721,7 +721,7 @@ class InversionExperiment(Experiment):
         return transformers.DataCollatorForSeq2Seq(
         #return DataCollatorForInversion(
             tokenizer,
-            embedder_tokenizer,
+            #embedder_tokenizer,
             model=None,
             label_pad_token_id=-100,
             padding="max_length",
