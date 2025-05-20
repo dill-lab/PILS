@@ -661,20 +661,26 @@ class InversionExperiment(Experiment):
     def load_trainer(self) -> transformers.Trainer:
         model = self.load_model()
         train_dataset, eval_dataset = self.load_train_and_val_datasets(
-            model=model,
-            tokenizer=model.tokenizer,
-            embedder_tokenizer=model.embedder_tokenizer,
-        )
+                model=model,
+                tokenizer=model.tokenizer,
+                embedder_tokenizer=model.embedder_tokenizer,
+                )
         if 'frozen_embeddings' in train_dataset.column_names:
-            train_dataset = train_dataset.map(lambda x: {"embedder_input_ids":torch.zeros(2,2), 
-                                                         "embedder_attention_mask":torch.zeros(2,2),
-                                                         })
+            train_dataset = train_dataset.map(lambda x: {
+                "embedder_input_ids": torch.zeros(2, 2),
+                "embedder_attention_mask": torch.zeros(2, 2),
+                "input_ids": torch.zeros(2, 2),
+                "attention_mask": torch.zeros(2, 2),
+                })
             train_dataset.set_format('pt')
         for ds_name, ds in eval_dataset.items():
             if 'frozen_embeddings' in ds.column_names:
-                eval_dataset[ds_name] = ds.map(lambda x: {"embedder_input_ids":torch.zeros(2,2), 
-                                                             "embedder_attention_mask": torch.zeros(2,2),
-                                                             })
+                eval_dataset[ds_name] = ds.map(lambda x: {
+                    "embedder_input_ids": torch.zeros(2, 2),
+                    "embedder_attention_mask": torch.zeros(2, 2),
+                    "input_ids": torch.zeros(2, 2),
+                    "attention_mask": torch.zeros(2, 2),
+                    })
             eval_dataset.set_format('pt')
         # print(f"{train_dataset=}")
         # print(f"{eval_dataset=}")
@@ -684,8 +690,8 @@ class InversionExperiment(Experiment):
         # sys.exit()
         n_params = sum({p.data_ptr(): p.numel() for p in model.parameters()}.values())
         logger.info(
-            f"Training model with name `{self.model_args.model_name_or_path}` - Total size={n_params/2**20:.2f}M params"
-        )
+                f"Training model with name `{self.model_args.model_name_or_path}` - Total size={n_params/2**20:.2f}M params"
+                )
 
         if self.training_args.mock_embedder:
             # This mode allows us to get the embedders off the GPU during training
@@ -712,8 +718,8 @@ class InversionExperiment(Experiment):
     def get_collator(
         self, tokenizer: transformers.PreTrainedTokenizer, embedder_tokenizer,
     ) -> transformers.DataCollatorForSeq2Seq:
-        #return transformers.DataCollatorForSeq2Seq(
-        return DataCollatorForInversion(
+        return transformers.DataCollatorForSeq2Seq(
+        #return DataCollatorForInversion(
             tokenizer,
             embedder_tokenizer,
             model=None,
