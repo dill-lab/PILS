@@ -3,8 +3,6 @@ from typing import Callable, Dict
 import torch
 import transformers
 
-from pils.models import InversionModel
-
 
 def tokenize_function(
     tokenizer: transformers.PreTrainedTokenizer,
@@ -187,7 +185,7 @@ def tokenize_generic_chat_models(
     return tokenize_function_inner
 
 
-def embed_dataset_batch(model: InversionModel, batch: Dict) -> Dict:
+def embed_dataset_batch(model, batch: Dict) -> Dict:
     assert "input_ids" in batch.keys(), f"invalid keys {batch.keys()}"
     assert hasattr(model, "call_embedding_model")
 
