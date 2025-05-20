@@ -578,14 +578,7 @@ class Experiment(abc.ABC):
         if self.model_args.extra_tokens >= 0:
             dataset_kwargs["extra_tokens"] = self.model_args.extra_tokens
         if self.model_args.hidden_size:
-            dataset_kwargs["extra_tokens"] = self.model_args.hidden_size
-        if self.training_args.experiment in [
-            "inversion_from_topk_logprobs",
-            "inversion_from_topk_logprobs_chosen",
-        ]:
-            dataset_kwargs["experiment"] = self.training_args.experiment
-        if self.model_args.num_gens:
-            dataset_kwargs["num_gens"] = self.model_args.num_gens
+            dataset_kwargs["hidden_size"] = self.model_args.hidden_size
 
         # os.environ["TOKENIZERS_PARALLELISM"] = "True"
         print(
