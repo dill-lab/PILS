@@ -36,7 +36,6 @@ class InversionModel(transformers.PreTrainedModel):
         super().__init__(config=config)
 
         use_frozen_embeddings_as_input = config.use_frozen_embeddings_as_input
-        embeddings_from_layer_n = config.embeddings_from_layer_n
 
         encoder_decoder = load_encoder_decoder(
             model_name=config.model_name_or_path,
