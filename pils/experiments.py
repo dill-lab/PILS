@@ -666,8 +666,8 @@ class InversionExperiment(Experiment):
             train_dataset = train_dataset.map(lambda x: {
                 "embedder_input_ids": torch.zeros(2).long(),
                 "embedder_attention_mask": torch.zeros(2).long(),
-                "input_ids": torch.zeros(2).long(),
-                "attention_mask": torch.zeros(2).long(),
+                # "input_ids": torch.zeros(2).long(),
+                # "attention_mask": torch.zeros(2).long(),
                 })
             train_dataset = train_dataset.remove_columns([
                 # "embedder_input_ids",
@@ -681,8 +681,8 @@ class InversionExperiment(Experiment):
                 ds = ds.map(lambda x: {
                     "embedder_input_ids": torch.zeros(2).long(),
                     "embedder_attention_mask": torch.zeros(2).long(),
-                    "input_ids": torch.zeros(2).long(),
-                    "attention_mask": torch.zeros(2).long(),
+                    # "input_ids": torch.zeros(2).long(),
+                    # "attention_mask": torch.zeros(2).long(),
                     })
                 ds = ds.remove_columns([
                     # "embedder_input_ids",
