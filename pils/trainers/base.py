@@ -62,7 +62,6 @@ class BaseTrainer(transformers.Trainer):
         self.compute_metrics = self.compute_metrics_func
         self.metric_accuracy = evaluate.load("accuracy")
         self.metric_bleu = evaluate.load("sacrebleu")
-        # self.metric_bertscore = evaluate.load("bertscore")
         self.metric_rouge = evaluate.load("rouge")
         self.additional_metrics = []
 
@@ -340,18 +339,14 @@ class BaseTrainer(transformers.Trainer):
         )
         self.bleu_results = (
             bleu_results.tolist()
-        )  # store bleu results in case we want to use them later for t-tests
-        # bertscore_result = self.metric_bertscore.compute(
-        #     predictions=predictions_str, references=references_str, lang="en"
-        # )
+            )
         exact_matches = np.array(predictions_str) == np.array(references_str)
         gen_metrics = {
             "bleu_score": bleu_results.mean(),
             "bleu_score_sem": sem(bleu_results),
             "rouge_score": rouge_result[
                 "rouge1"
-            ],  # ['rouge1', 'rouge2', 'rougeL', 'rougeLsum']
-            # "bert_score": statistics.fmean(bertscore_result["f1"]),
+            ],
             "exact_match": mean(exact_matches),
             "exact_match_sem": sem(exact_matches),
         }

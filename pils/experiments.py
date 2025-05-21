@@ -178,9 +178,6 @@ class Experiment(abc.ABC):
 
         # train.   :)
         print(f"train() called – resume-from_checkpoint = {checkpoint}")
-        from torchinfo import summary
-
-        print(summary(trainer.model))
         train_result = trainer.train(resume_from_checkpoint=checkpoint)
         trainer.save_model()  # Saves the tokenizer too for easy upload
 

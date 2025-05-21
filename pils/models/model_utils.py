@@ -1,25 +1,10 @@
-import os
 from typing import Any, Dict
 
 import torch
 import torch.nn as nn
 import transformers
-from sentence_transformers import SentenceTransformer
 
 EMBEDDER_MODEL_NAMES = [
-    "meta-llama/Llama-2-7b-hf",
-    "meta-llama/Llama-2-13b-hf",
-    "meta-llama/Llama-2-7b-chat-hf",
-    "meta-llama/Llama-2-13b-chat-hf",
-    "nomic-ai/nomic-embed-text-v1",
-    "gpt2",
-    "gpt2-medium",
-    "gpt2-large",
-    "gpt2-xl",
-    "gpt2-random_transform-clr",
-    "gpt2-random_transform-alr",
-    "gpt2-random_k-alr",
-    "gpt2-random_k-clr",
     "llama2-random_k-alr",
     "llama2-random_k-clr",
     "llama2_chat-random_k-alr",

@@ -1,6 +1,15 @@
 # pils
 
-To train:
+## Installation
+We recommend using python 3.11.11.
+
+In the current directory(as this README), run:
+```bash
+pip install .
+```
+
+
+## Run main experiment
 ```bash
 python pils/run.py --per_device_train_batch_size 250\
            --per_device_eval_batch_size 250\
@@ -11,7 +20,6 @@ python pils/run.py --per_device_train_batch_size 250\
            --warmup_steps 250\
            --learning_rate 0.0002\
            --dataset_name one_million_instructions\
-           --logging_steps 32\
            --model_name_or_path t5-base\
            --use_wandb=1\
            --experiment inversion_from_hidden_states\
@@ -24,4 +32,3 @@ python pils/run.py --per_device_train_batch_size 250\
            --output_dir /path/to/save/dir/\
            --exp_group_name llama2-chat\
            --extra_tokens 100
-```
