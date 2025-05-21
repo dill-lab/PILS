@@ -101,17 +101,6 @@ def load_embedder_and_tokenizer(
                 torch_dtype=torch_dtype,
             )
             tokenizer = model.tokenizer
-        elif name == "llama2-random_k-clr":
-            from pils.embedders.embeddings import Llama2RandomKCLREmbedder
-
-            model = Llama2RandomKCLREmbedder(
-                max_length=kwargs["max_length"],
-                max_new_tokens=kwargs["max_new_tokens"],
-                extra_tokens=kwargs["extra_tokens"],
-                torch_dtype=torch_dtype,
-            )
-            tokenizer = model.tokenizer
-
         elif name == "llama2_chat-random_k-alr":
             from pils.embedders.embeddings import Llama2ChatRandomKALREmbedder
 
