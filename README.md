@@ -1,26 +1,17 @@
 # Better Language Model Inversion by Compactly Representing Next-Token Distributions
 
-## Installation
-We recommend using python 3.11.11.
+## Requirements
+We recommend using `python=3.11.11`
 
-In the current directory(as this README), run:
-```bash
-pip install .
-```
-
-## Datasets
 ```bash
 wget "https://zenodo.org/records/12759549/files/prompt2output_datasets.zip?download=1" -O prompt2output_datasets.zip
 unzip prompt2output_datasets.zip
-```
-Set datasets environ variables
-
-```bash
-export CUSTOM_DATASET_ROOT=/path/to/dataset/folder/
+pip install .
 ```
 
-## Run main experiment
+## Training
 ```bash
+export CUSTOM_DATASET_ROOT=$(pwd)/datasets/
 python pils/run.py --per_device_train_batch_size 250\
            --per_device_eval_batch_size 250\
            --max_seq_length 64\
