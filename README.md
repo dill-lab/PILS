@@ -45,6 +45,7 @@ Possible values for `embedder_model_name`:
 
 ## Finetuning
 ```bash
+export CUSTOM_DATASET_ROOT=$(pwd)/datasets/
 python pils/run.py --per_device_train_batch_size 50\
            --per_device_eval_batch_size 50\
            --max_seq_length 64\
