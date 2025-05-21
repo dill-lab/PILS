@@ -678,18 +678,19 @@ class InversionExperiment(Experiment):
             train_dataset.set_format('pt')
         for ds_name, ds in eval_dataset.items():
             if 'frozen_embeddings' in ds.column_names:
-                eval_dataset[ds_name] = ds.map(lambda x: {
+                ds = ds.map(lambda x: {
                     "embedder_input_ids": torch.zeros(2).long(),
                     "embedder_attention_mask": torch.zeros(2).long(),
                     "input_ids": torch.zeros(2).long(),
                     "attention_mask": torch.zeros(2).long(),
                     })
-                eval_dataset[ds_name] = ds.remove_columns([
+                ds = ds.remove_columns([
                     # "embedder_input_ids",
                     # "embedder_attention_mask",
                     # "input_ids",
                     # "attention_mask",
                     ])
+                eval_dataset[ds_name] = ds
             eval_dataset.set_format('pt')
         # print(f"{train_dataset=}")
         # print(f"{eval_dataset=}")
