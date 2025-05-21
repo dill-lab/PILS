@@ -22,7 +22,6 @@ python pils/run.py --per_device_train_batch_size 250\
            --embedder_model_name llama2_chat-random_k-alr\
            --max_new_tokens 16\
            --output_dir /path/to/save/dir/\
-           --exp_group_name llama2-chat-bugfix\
-           --extra_tokens 100\
-           --use_less_data 1000
+           --exp_group_name llama2-chat\
+           --extra_tokens 100
 ```
