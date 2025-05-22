@@ -653,7 +653,7 @@ class InversionExperiment(Experiment):
 
     @property
     def _wandb_project_name(self) -> str:
-        return "emb-inv-4"
+        return "pils-inversion"
 
     def load_trainer(self) -> transformers.Trainer:
         model = self.load_model()
