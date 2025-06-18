@@ -61,7 +61,7 @@ class InversionFromHiddenStatesModel(InversionModel):
             embedder_input_ids=embedder_input_ids,
             embedder_attention_mask=embedder_attention_mask,
         )
-        return model_output["embeddings"]
+        return model_output
 
     def embed_and_project(
         self,
@@ -77,12 +77,12 @@ class InversionFromHiddenStatesModel(InversionModel):
                 embeddings = self.call_embedding_model(
                     embedder_input_ids=embedder_input_ids,
                     embedder_attention_mask=embedder_attention_mask,
-                )
+                )["embeddings"]
         else:
             embeddings = self.call_embedding_model(
                 embedder_input_ids=embedder_input_ids,
                 embedder_attention_mask=embedder_attention_mask,
-            )
+            )["embeddings"]
 
         embeddings = self.embedding_transform(embeddings)
         attention_mask = torch.ones(
