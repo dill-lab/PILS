@@ -61,7 +61,7 @@ class InversionFromHiddenStatesModel(InversionModel):
             embedder_input_ids=embedder_input_ids,
             embedder_attention_mask=embedder_attention_mask,
         )
-        return model_output
+        return model_output["embeddings"]
 
     def embed_and_project(
         self,
