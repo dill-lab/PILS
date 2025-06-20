@@ -71,4 +71,14 @@ python pils/run.py --per_device_train_batch_size 50\
            --pretrained_path /path/to/model
 ```
 
+# Cite our work
 
+```
+@article{Nazir_Better_Language_Model_2025,
+    author = {Nazir, Murtaza and Finlayson, Matthew and Morris, John X. and Ren, Xiang and Swayamdipta, Swabha},
+    journal = {ArXiv},
+    month = jun,
+    title = {{Better Language Model Inversion by Compactly Representing Next-Token Distributions}},
+    year = {2025}
+}
+```
