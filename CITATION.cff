@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Nazir"
+  given-names: "Murtaza"
+- family-names: "Finlayson"
+  given-names: "Matthew"
+- family-names: "Morris"
+  given-names: "John X."
+- family-names: "Ren"
+  given-names: "Xiang"
+- family-names: "Swayamdipta"
+  given-names: "Swabha"
+title: "Better Language Model Inversion by Compactly Representing Next-Token Distributions"
+date-released: 2025-06-23
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Nazir"
+    given-names: "Murtaza"
+  - family-names: "Finlayson"
+    given-names: "Matthew"
+  - family-names: "Morris"
+    given-names: "John X."
+  - family-names: "Ren"
+    given-names: "Xiang"
+  - family-names: "Swayamdipta"
+    given-names: "Swabha"
+  title: "Better Language Model Inversion by Compactly Representing Next-Token Distributions"
+  date-released: 2025-06-23
+  journal: "ArXiv"
+  month: 6
+  year: 2025
