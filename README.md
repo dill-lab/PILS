@@ -1,5 +1,7 @@
 # Better Language Model Inversion by Compactly Representing Next-Token Distributions
 
+Code for our [paper](https://arxiv.org/abs/2506.17090)
+
 ## Requirements
 We recommend using `python=3.11.11`
 
